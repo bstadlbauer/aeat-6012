@@ -26,6 +26,7 @@ class CrankAngleSensor(object):
             :returns:
                 A list of the serial ports available on the system
         """
+        print('Finding sensor ...')
         if sys.platform.startswith('win'):
             ports = ['COM%s' % (i + 1) for i in range(256)]
         elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
@@ -42,6 +43,7 @@ class CrankAngleSensor(object):
                 s = serial.Serial(port)
                 s.baudrate = BAUDRATE
                 s.timeout = 1
+                s.write_timeout = 0.5
                 time.sleep(2)  # Wait until everything is set up
                 s.write(VER)
                 s.flush()
@@ -57,7 +59,9 @@ class CrankAngleSensor(object):
                                'it is plugged in and the COM port is closed')
         elif len(results) is not 1:
             warnings.warn('More than one supported sensors are connected. '
-                          'Using the one on COM{}'.format(results[0].port))
+                          'Using the one on {}'.format(results[0].port))
+
+        print('Success. Compatible sensor found on {}\n'.format(results[0].port))
         return results[0]
 
     def get_angle(self):
