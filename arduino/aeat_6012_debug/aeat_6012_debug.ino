@@ -1,5 +1,6 @@
-// Read in 12-bits Magnetic Encoder AEAT-6012-A06  into Arduino Nano
-// RobinL modified by linarism
+// Read in 12-bits Magnetic Encoder AEAT-6012-A06
+// RobinL modified by linarism and bstadlbauer
+// Script for debugging. Returns a continous stream of angle measurements as soon as started
 
 // Declarate
 
@@ -13,22 +14,16 @@ void setup(){
 
   Serial.begin(115200);
   Serial.println("Hello World!"); //send sample text to monitor for debug
- 
-  //Fix de tris
 
   pinMode(CSn, OUTPUT);
   pinMode(CLK, OUTPUT);
   pinMode(DO, INPUT);
 
-  //Let's start here
   digitalWrite(CLK, HIGH);
   digitalWrite(CSn, HIGH);
 }
 
-
-
 void loop() {
-
   sensorWaarde = readSensor();
   delayMicroseconds(1); //Tcs waiting for another read in
 }
@@ -49,8 +44,7 @@ unsigned int readSensor(){
   }
 
   digitalWrite(CSn, HIGH); //deselects the encoder from reading
-        Serial.println(dataOut);
+  Serial.println(dataOut);
   return dataOut;
-
 }
 

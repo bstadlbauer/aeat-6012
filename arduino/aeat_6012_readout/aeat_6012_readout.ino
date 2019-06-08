@@ -1,32 +1,24 @@
-
-// Read in 12-bits Magnetic Encoder AEAT-6012-A06  into Arduino Nano
-// RobinL modified by linarism
-
-// Declarate
+// Read in 12-bits Magnetic Encoder AEAT-6012-A06
+// RobinL modified by linarism and bstadlbauer
+// If 'A' is written to the sensor: Returns the angle mapped such that full 12 bits are 360 degress
+// If 'V' is written to the sensor: Returns the current Version ("sensor_vX")
 
 const int CSn = 4; // Chip select
 const int CLK = 7; // Clock signal
-const int DO = 8; // Digital Output from the encoder which delivers me a 0 or 1, depending on the bar angle..
+const int DO = 8; // Digital Output from the encoder which delivers me a 0 or 1, depending on the bar angle
 
 unsigned int sensorWaarde = 0;
 
 void setup(){
-
   Serial.begin(115200);
-  //Serial.println("Hello World!"); //send sample text to monitor for debug
- 
-  //Fix de tris
 
   pinMode(CSn, OUTPUT);
   pinMode(CLK, OUTPUT);
   pinMode(DO, INPUT);
 
-  //Let's start here
   digitalWrite(CLK, HIGH);
   digitalWrite(CSn, HIGH);
 }
-
-
 
 void loop() {
   char c = 0;
@@ -60,8 +52,7 @@ unsigned int readSensor(){
   }
 
   digitalWrite(CSn, HIGH); //deselects the encoder from reading
-        Serial.println(dataOut);
+  Serial.println(dataOut);
   return dataOut;
-
 }
 
